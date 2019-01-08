@@ -1,0 +1,77 @@
+spring:
+  profiles:
+    active:
+    - dev
+---
+server:
+  port: 80
+
+spring:
+  profiles: dev
+  application:
+    name: microservicecloud-zuul-gateway
+
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+      defaultZone: http://eureka7001.com:7001/eureka
+  instance:
+    instance-id: gateway-9527.com
+    prefer-ip-address: true
+
+
+zuul:
+#  ignored-services: microservicecloud-dept # 这是忽略原先真实的微服务名称
+  prefix: /jingtu
+  ignored-services: "*" # 这是多个微服务使用*去忽略
+  routes:
+    dept.serviceId: microservicecloud-config-consumer-dept #代理config配置版的dept微服务
+    dept.path: /** #配置以/ 代替微服务名称microservicecloud-config-consumer-dept访问
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+  
+info:
+  app.name: jigntu-microcloud
+  company.name: www.wxjingtu.top
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$
+  
+---
+server:
+  port: 80
+
+spring:
+  profiles: test
+  application:
+    name: microservicecloud-zuul-gateway
+
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+      defaultZone: http://eureka7001.com:7001/eureka
+  instance:
+    instance-id: gateway-9527.com
+    prefer-ip-address: true
+
+
+zuul:
+#  ignored-services: microservicecloud-dept # 这是忽略原先真实的微服务名称
+  prefix: /jingtu
+  ignored-services: "*" # 这是多个微服务使用*去忽略
+  routes:
+    dept.serviceId: microservicecloud-config-consumer-dept #代理config配置版的dept微服务
+    dept.path: /** #配置以/ 代替微服务名称microservicecloud-config-consumer-dept访问
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+  
+info:
+  app.name: jigntu-microcloud
+  company.name: www.wxjingtu.top
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$  
